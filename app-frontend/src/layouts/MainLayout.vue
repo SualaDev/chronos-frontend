@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout class="page-container" view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -15,7 +15,7 @@
           Quasar App
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>CRUD Application By Suala Amotsuka</div>
       </q-toolbar>
     </q-header>
 
@@ -24,19 +24,18 @@
       show-if-above
       bordered
     >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
+      <q-img class="header-image" src="~src/static/mountain.jpg">
+        <div  class="absolute-bottom bg-transparent text-wrapper">
+          <p>Suala Amotsuka</p>
+          <p>@SualaDev</p>
+        </div>
+      </q-img>
+      <div class="list-section">
+        <li class="list-item">
+          <q-icon name="shopping_cart"></q-icon>
+          <p>Cart</p>
+        </li>
+      </div>
     </q-drawer>
 
     <q-page-container>
@@ -47,7 +46,6 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
 
 const linksList = [
   {
@@ -97,9 +95,9 @@ const linksList = [
 export default defineComponent({
   name: 'MainLayout',
 
-  components: {
-    EssentialLink
-  },
+  // components: {
+  //   EssentialLink
+  // },
 
   setup () {
     const leftDrawerOpen = ref(false)
@@ -114,3 +112,18 @@ export default defineComponent({
   }
 })
 </script>
+<style lang="scss">
+.header-image img{
+  width: 100%;
+}
+.list-section{
+  margin: 0;
+  padding: 0;
+}
+.list-item{
+  display: flex;
+  column-gap: 2rem;
+  padding: 1.5rem;
+  align-items: center;
+}
+</style>
