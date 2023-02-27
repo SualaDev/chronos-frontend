@@ -29,6 +29,7 @@
 .sub-container h2{
   text-align: center;
   font-size: 1rem;
+  max-width: 300px;
 }
 .email-section{
   display: flex;
