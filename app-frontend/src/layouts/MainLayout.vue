@@ -2,15 +2,6 @@
   <q-layout class="page-container" view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
         <q-toolbar-title>
           Quasar App
         </q-toolbar-title>
@@ -18,25 +9,6 @@
         <div>CRUD Application By Suala Amotsuka</div>
       </q-toolbar>
     </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-img class="header-image" src="~src/static/mountain.jpg">
-        <div  class="absolute-bottom bg-transparent text-wrapper">
-          <p>Suala Amotsuka</p>
-          <p>@SualaDev</p>
-        </div>
-      </q-img>
-      <div class="list-section">
-        <li class="list-item">
-          <q-icon name="shopping_cart"></q-icon>
-          <p>Cart</p>
-        </li>
-      </div>
-    </q-drawer>
 
     <q-page-container>
       <router-view />
