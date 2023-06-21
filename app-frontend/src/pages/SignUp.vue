@@ -1,57 +1,108 @@
 <template>
-  <q-page class="main-container">
-    <h2 class="entry-text">SignUp</h2>
-    <div class="sub-container">
-      <div class="details-section">
-        <input type="text" placeholder="Your FullName" label="Name and Surname">
-        <input type="text" placeholder="Your Email" label="Email">
-        <input type="password" placeholder="password" label="Password">
-        <div class="btn-container">
-          <q-btn>SIGNUP</q-btn>
-          <q-btn>RESET</q-btn>
-        </div>
-        <q-separator color="black"></q-separator>
-      </div>
-      <div>
-        <h3 class="user-check">Already have an account?</h3>
-        <q-btn to="/">LOGIN</q-btn>
-      </div>
-    </div>
-  </q-page>
-</template>
+    <q-page class="flex flex-center" padding>
+      <div class="full-width" style="max-width: 300px">
+        <h5 class="q-my-md text-center">Sign-Up</h5>
+        <q-card>
+          <q-card-section>
+            <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+              <q-input
+                filled
+                v-model="formData.name"
+                label="Your Fullname"
+                hint="Name and Surname"
+                lazy-rules
+                :rules="[(val: string) => (val && val.length > 0) || 'Please type something']"
+              />
+  
+              <q-input
+                filled
+                hint="email@example.com"
+                v-model="formData.email"
+                label="Your mail"
+                :rules="[(val: string) => !!val || 'Email is missing', isValidEmail]"
+              />
 
-<script>
-  export default {
-    
-  }
-</script>
+              <q-input
+                filled
+                v-model="formData.password"
+                label="Password *"
+                hint = "Keep this information safe"
+                type="password"
+                :rules="[(val: string) => (val && val.length >= 8) || 'Password is short']"
+              />
+  
+              <div>
+              <q-btn
+              color="black" 
+              type="submit" 
+              label="Signup" 
+              class="fill-width" 
+              ripple="{ center: true }"/>
 
-<style lang="scss" scoped>
-.entry-text{
-  text-align: center;
-  font-size: 1rem;
-}
-.main-container{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.sub-container{
-  max-width: 300px;
-  box-shadow: 0 1px 5px rgb(0 0 0 / 20%), 0 2px 2px rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%);
-  padding: 1rem;
-}
-.details-section{
-  display: flex;
-  flex-direction: column;
-  row-gap: 1.5rem;
-}
-.btn-container{
-  display: flex;
-  column-gap: 1rem;
-}
-.user-check{
-  font-size: 1rem;
-}
-</style>
+              <q-btn
+                  label="Reset"
+                  type="reset"
+                  color="black"
+                  flat
+                  class="q-ml-sm"
+                />
+              </div>
+            </q-form>
+          </q-card-section> 
+            <q-separator color="black" />
+            <q-card-section>
+              <div style="display:inline-grid">
+                <p style="padding-right:12px;">Already have an account?</p>
+                
+                <q-btn to="/" color="black" label="Login" />
+              </div>
+            </q-card-section>
+          
+        </q-card>
+      </div>
+    </q-page>
+  </template>
+  
+  <script lang="ts">
+  import { api } from 'boot/axios';
+  import { defineComponent } from 'vue';
+  export default defineComponent({
+    name: 'SignupDetails',
+    data() {
+      return {
+        formData: {
+          name: null,
+          email: null,
+          password: null,
+        },
+      };
+    },
+    methods: {
+      async onSubmit() {
+        try {
+          await api.post('/auth/register', {
+            name: this.formData.name,
+            email: this.formData.email,
+            password: this.formData.password,
+          });
+          
+        } catch (e) {
+          console.log(e)
+          return alert('Incorrect username or password ');
+        }
+        this.$router.push({ path: '/' });
+      },
+      onReset() {
+        this.formData.name = null;
+        this.formData.email = null;
+        this.formData.password = null;
+      },
+      isValidEmail(val: string) {
+        const emailPattern =
+          /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+        return emailPattern.test(val) || 'Invalid email';
+      },
+    },
+  });
+  </script>
+  
